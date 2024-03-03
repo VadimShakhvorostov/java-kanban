@@ -14,9 +14,6 @@ public class Manager {
     private final Map<Integer, Subtask> subtasks = new HashMap<>();
     private final Map<Integer, Epic> epics = new HashMap<>();
 
-    public Manager() {
-    }
-
     private void updateId() {
         id++;
     }
@@ -46,15 +43,15 @@ public class Manager {
     }
 
     public Collection<Task> getTasks() {
-        return tasks.values();
+        return new ArrayList<>(tasks.values()) ;
     }
 
     public Collection<Subtask> getSubtasks() {
-        return subtasks.values();
+        return new ArrayList<>(subtasks.values());
     }
 
     public Collection<Epic> getEpics() {
-        return epics.values();
+        return new ArrayList<>(epics.values()) ;
     }
 
     public void removeAllTask() {

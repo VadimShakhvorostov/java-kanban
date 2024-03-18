@@ -1,19 +1,44 @@
-import manager.Manager;
+import manager.InMemoryTaskManager;
+import manager.Managers;
+import manager.TaskManager;
+import tasks.Epic;
+import tasks.Subtask;
+import tasks.Task;
 
 public class Main {
 
     public static void main(String[] args) {
 
-       Manager m = new manager.Manager();
+        TaskManager manager = Managers.getDefault();
 
-        tasks.Epic epic1 = new tasks.Epic("Купить", "Купить планету");
-        m.createEpic(epic1);
-        tasks.Subtask subtask1 = new tasks.Subtask("Взять", "Взять деньги");
-        m.createSubtask(subtask1, epic1);
-        tasks.Subtask subtask2 = new tasks.Subtask("Сесть", "Сесть в ракету");
-        m.createSubtask(subtask2, epic1);
+        Task t1 = new Task("1", "1");
+        manager.createTask(t1);
+        manager.getTasksById(1);
+        System.out.println(manager.getHistory());
+
+        Task t2 = new Task("sdfsdf", "2sdfsdfsdf", 1);
+        manager.updateTask(t2);
+        manager.getTasksById(1);
+
+
+        System.out.println(manager.getHistory());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
     }
+
 }

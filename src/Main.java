@@ -21,7 +21,8 @@ public class Main {
         manager.getTasksById(1);
 
 
-        System.out.println(manager.getHistory());
+
+        System.out.println(manager.getTasksById(5));
 
 
 

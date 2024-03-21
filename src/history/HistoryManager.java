@@ -2,13 +2,13 @@ package history;
 
 import tasks.Task;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface HistoryManager {
 
     void add(Task task);
 
-    Collection<Task>getHistory();
+    List<Task> getHistory();
 
 
 }

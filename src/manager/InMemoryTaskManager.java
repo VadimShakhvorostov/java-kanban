@@ -1,11 +1,14 @@
 package manager;
+
 import history.HistoryManager;
 import history.InMemoryHistoryManager;
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 import tasks.TaskStatus;
+
 import java.util.*;
+
 public class InMemoryTaskManager implements TaskManager {
 
     private int id;
@@ -13,7 +16,7 @@ public class InMemoryTaskManager implements TaskManager {
     private final Map<Integer, Subtask> subtasks = new HashMap<>();
     private final Map<Integer, Epic> epics = new HashMap<>();
 
-    HistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
+    HistoryManager inMemoryHistoryManager = Managers.getDefaultHistory();
 
     private void updateId() {
         id++;
@@ -59,7 +62,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Collection<Task> getTasks() {
-        return new ArrayList<>(tasks.values()) ;
+        return new ArrayList<>(tasks.values());
     }
 
     @Override
@@ -69,7 +72,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Collection<Epic> getEpics() {
-        return new ArrayList<>(epics.values()) ;
+        return new ArrayList<>(epics.values());
     }
 
     @Override
@@ -117,7 +120,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateTask(Task newTask) {
-        TaskStatus oldTaskStatus = newTask.getStatus();
+        TaskStatus oldTaskStatus = tasks.get(newTask.getId()).getStatus();
         int oldIdTask = newTask.getId();
         newTask.setStatus(oldTaskStatus);
         tasks.replace(oldIdTask, newTask);

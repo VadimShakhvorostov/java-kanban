@@ -36,8 +36,14 @@ class InMemoryHistoryManagerTest {
         assertTrue(inMemoryTaskManager.getHistory().contains(taskBefore));
         assertTrue(inMemoryTaskManager.getHistory().contains(taskAfter));
     }
-
-
+    @Test
+    void shouldReturnTrueIfTaskCheckAgain() {
+        Task taskOne = new Task("1", "1");
+        inMemoryTaskManager.createTask(taskOne);
+        inMemoryTaskManager.getTasksById(1);
+        inMemoryTaskManager.getTasksById(1);
+        assertEquals(1, inMemoryTaskManager.getHistory().size());
+    }
 }
 
 

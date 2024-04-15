@@ -15,27 +15,14 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(Task task) {
-        Node<Task> oldTail = tail;
-        Node<Task> newNode = new Node<>(oldTail, task, null);
-        tail = newNode;
-        if (oldTail == null) {
-            head = newNode;
-        } else {
-            oldTail.setNext(newNode);
-        }
-        remove(task.getId());
-        history.put(task.getId(), newNode);
+        if (task == null)
+            return;
+      linkLast(task);
     }
 
     @Override
     public List<Task> getHistory() {
-        List<Task> list = new ArrayList<>();
-        Node<Task> node = head;
-        while (node != null) {
-            list.add(node.getElement());
-            node = node.getNext();
-        }
-        return list;
+      return getTasks();
     }
 
     @Override
@@ -56,5 +43,28 @@ public class InMemoryHistoryManager implements HistoryManager {
             node.getPrevious().setNext(node.getNext());
             node.getNext().setPrevious(node.getPrevious());
         }
+    }
+
+    private void linkLast(Task task){ 
+        Node<Task> oldTail = tail;
+        Node<Task> newNode = new Node<>(oldTail, task, null);
+        tail = newNode;
+        if (head == null) {
+            head = newNode;
+        } else {
+            oldTail.setNext(newNode);
+        }
+        remove(task.getId());
+        history.put(task.getId(), newNode);
+    }
+
+    private List<Task> getTasks(){
+        List<Task> list = new ArrayList<>();
+        Node<Task> node = head;
+        while (node != null) {
+            list.add(node.getElement());
+            node = node.getNext();
+        }
+        return list;
     }
 }

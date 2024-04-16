@@ -17,7 +17,9 @@ public class InMemoryHistoryManager implements HistoryManager {
     public void add(Task task) {
         if (task == null)
             return;
+        remove(task.getId());
         linkLast(task);
+        history.put(task.getId(), tail);
     }
 
     @Override
@@ -33,29 +35,30 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private void removeNode(Node<Task> node) {
-        if (node.getNext() == null) {
-            node.getPrevious().setNext(null);
-            tail = node.getPrevious();
-        } else if (node.getPrevious() == null) {
-            node.getNext().setPrevious(null);
-            head = node.getNext();
+        Node<Task> previousNode = node.getPrevious();
+        Node<Task> nextNode = node.getNext();
+        if (previousNode == null) {
+            head = nextNode;
         } else {
-            node.getPrevious().setNext(node.getNext());
-            node.getNext().setPrevious(node.getPrevious());
+            previousNode.setNext(nextNode);
+            node.setPrevious(null);
+        }
+        if (nextNode == null) {
+            tail = previousNode;
+        } else {
+            nextNode.setPrevious(previousNode);
+            node.setNext(null);
         }
     }
 
     private void linkLast(Task task) {
-        Node<Task> oldTail = tail;
-        Node<Task> newNode = new Node<>(oldTail, task, null);
-        tail = newNode;
+        Node<Task> newNode = new Node<>(tail, task, null);
         if (head == null) {
             head = newNode;
         } else {
-            oldTail.setNext(newNode);
+            tail.setNext(newNode);
         }
-        remove(task.getId());
-        history.put(task.getId(), newNode);
+        tail = newNode;
     }
 
     private List<Task> getTasks() {

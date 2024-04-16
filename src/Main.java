@@ -21,7 +21,9 @@ public class Main {
         manager.createTask(t3);
 
 
-        manager.getTasksById(1);
+
+
+
 
 
 

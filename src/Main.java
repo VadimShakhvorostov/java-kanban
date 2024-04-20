@@ -1,8 +1,6 @@
-import manager.InMemoryTaskManager;
+
 import manager.Managers;
 import manager.TaskManager;
-import tasks.Epic;
-import tasks.Subtask;
 import tasks.Task;
 
 public class Main {
@@ -13,33 +11,22 @@ public class Main {
 
         Task t1 = new Task("1", "1");
         manager.createTask(t1);
-        manager.getTasksById(1);
+
+
+        Task t2 = new Task("2", "2");
+        manager.createTask(t2);
+
+
+        Task t3 = new Task("3", "3");
+        manager.createTask(t3);
+
+
+
+
+
+
+
+
         System.out.println(manager.getHistory());
-
-        Task t2 = new Task("sdfsdf", "2sdfsdfsdf", 1);
-        manager.updateTask(t2);
-        manager.getTasksById(1);
-
-
-
-        System.out.println(manager.getTasksById(5));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
-
 }

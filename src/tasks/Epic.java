@@ -32,7 +32,7 @@ public class Epic extends Task {
         this.epicsSubtask = epicsSubtask;
     }
 
-    public void addSubtask(Subtask subtask) {
+    public void setSubtask(Subtask subtask) {
         epicsSubtask.add(subtask);
     }
 
@@ -49,38 +49,50 @@ public class Epic extends Task {
         return epicsSubtask;
     }
 
-//    public void setStatus() {
-//        if (!epicsSubtask.isEmpty()) {
-//            for (Subtask s : epicsSubtask) {
-//                if (s.getStatus() != TaskStatus.DONE && s.getStatus() != TaskStatus.NEW) {
-//                    super.setStatus(TaskStatus.IN_PROGRESS);
-//                } else if (s.getStatus() == TaskStatus.DONE) {
-//                    super.setStatus(TaskStatus.DONE);
-//                } else {
-//                    super.setStatus(TaskStatus.DONE);
-//                }
-//            }
-//        } else super.setStatus(TaskStatus.NEW);
-//    }
-
-        public void setStatus() {
+    public void setStatus() {
         int countDone = 0;
         int countNew = 0;
         if (!epicsSubtask.isEmpty()) {
             for (Subtask s : epicsSubtask) {
-                if (s.getStatus() == TaskStatus.DONE){
+                if (s.getStatus() == TaskStatus.DONE) {
                     countDone++;
-                } if (s.getStatus() == TaskStatus.NEW){
+                }
+                if (s.getStatus() == TaskStatus.NEW) {
                     countNew++;
                 }
             }
-            if (countNew == epicsSubtask.size()){
+            if (countNew == epicsSubtask.size()) {
                 super.setStatus(TaskStatus.NEW);
-            }else if (countDone ==epicsSubtask.size()){
+            } else if (countDone == epicsSubtask.size()) {
                 super.setStatus(TaskStatus.DONE);
             } else
                 super.setStatus(TaskStatus.IN_PROGRESS);
         } else super.setStatus(TaskStatus.NEW);
+    }
+
+    @Override
+    public int getId() {
+        return super.getId();
+    }
+
+    @Override
+    public TaskStatus getStatus() {
+        return super.getStatus();
+    }
+
+    @Override
+    public String getName() {
+        return super.getName();
+    }
+
+    @Override
+    public String getDescription() {
+        return super.getDescription();
+    }
+
+    @Override
+    public String toString() {
+        return getId() + "," + TaskType.EPIC + "," + getName() + "," + getStatus() + "," + getDescription() + ",\n";
     }
 }
 

@@ -14,11 +14,16 @@ public class Subtask extends Task {
 
     public Subtask(String name, String description) {
         super(name, description);
-        epic = new Epic(null,null);
+        epic = new Epic(null, null);
     }
 
     public Subtask(String name, String description, int id) {
         super(name, description, id);
-        this.epic= new Epic(null,null);
+        this.epic = new Epic(null, null);
+    }
+
+    @Override
+    public String toString() {
+        return getId() + "," + TaskType.SUBTASK + "," + getName() + "," + getStatus() + "," + getDescription() + "," + getEpic().getId() + ",\n";
     }
 }

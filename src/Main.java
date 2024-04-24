@@ -1,10 +1,4 @@
 import manager.FileBackedTaskManager;
-import manager.InMemoryTaskManager;
-import manager.Managers;
-import manager.TaskManager;
-import tasks.Epic;
-import tasks.Subtask;
-import tasks.Task;
 
 import java.io.File;
 
@@ -12,7 +6,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        TaskManager manager = Managers.getDefault();
 
         FileBackedTaskManager fileManager = new FileBackedTaskManager(new File("file.csv"));
 
@@ -45,5 +38,4 @@ public class Main {
         System.out.println(fileManager.getEpics());
         System.out.println(fileManager.getSubtasks());
     }
-
 }

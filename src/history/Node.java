@@ -12,9 +12,6 @@ public class Node<T> {
         this.previous = previous;
     }
 
-    public void setElement(T element) {
-        this.element = element;
-    }
 
     public void setNext(Node<T> next) {
         this.next = next;

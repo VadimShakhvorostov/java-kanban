@@ -65,13 +65,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                         break;
                 }
             }
-            SetSubtasksToTasksAndTaskToSubtasks();
+            SetSubtaskToTask();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void SetSubtasksToTasksAndTaskToSubtasks() {
+    private void SetSubtaskToTask() {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             if (bufferedReader.readLine().isEmpty()) {
                 return;

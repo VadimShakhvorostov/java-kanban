@@ -1,0 +1,8 @@
+id,type,name,status,description,epic 
+1,TASK,сделать,DONE,сделать работу,
+2,TASK,сделать,DONE,сделать работу,
+3,TASK,сделать,NEW,сделать работу,
+4,EPIC,мыть,NEW,мыть пол,
+5,EPIC,мыть,NEW,мыть пол,
+6,SUBTASK,пить,DONE,пить сок,4,
+7,SUBTASK,пить,DONE,пить сок,5,

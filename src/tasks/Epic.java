@@ -32,7 +32,7 @@ public class Epic extends Task {
         this.epicsSubtask = epicsSubtask;
     }
 
-    public void addSubtask(Subtask subtask) {
+    public void setSubtask(Subtask subtask) {
         epicsSubtask.add(subtask);
     }
 
@@ -68,6 +68,31 @@ public class Epic extends Task {
             } else
                 super.setStatus(TaskStatus.IN_PROGRESS);
         } else super.setStatus(TaskStatus.NEW);
+    }
+
+    @Override
+    public int getId() {
+        return super.getId();
+    }
+
+    @Override
+    public TaskStatus getStatus() {
+        return super.getStatus();
+    }
+
+    @Override
+    public String getName() {
+        return super.getName();
+    }
+
+    @Override
+    public String getDescription() {
+        return super.getDescription();
+    }
+
+    @Override
+    public String toString() {
+        return getId() + "," + TaskType.EPIC + "," + getName() + "," + getStatus() + "," + getDescription() + ",\n";
     }
 }
 

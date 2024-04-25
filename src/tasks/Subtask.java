@@ -21,4 +21,9 @@ public class Subtask extends Task {
         super(name, description, id);
         this.epic = new Epic(null, null);
     }
+
+    @Override
+    public String toString() {
+        return getId() + "," + TaskType.SUBTASK + "," + getName() + "," + getStatus() + "," + getDescription() + "," + getEpic().getId() + ",\n";
+    }
 }

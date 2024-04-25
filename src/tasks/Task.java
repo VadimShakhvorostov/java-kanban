@@ -36,14 +36,25 @@ public class Task {
         this.status = status;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     @Override
     public String toString() {
-        return "tasks.Task{" +
-                "Название='" + name + '\'' +
-                ", Описание='" + description + '\'' +
-                ", Идентификатор=" + id +
-                ", Статус=" + status +
-                '}' + "\n";
+        return id + "," + TaskType.TASK + "," + name + "," + status + "," + description + ",\n";
     }
 
     @Override

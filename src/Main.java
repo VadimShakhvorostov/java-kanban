@@ -34,8 +34,12 @@ public class Main {
 
         fileManager.loadFromFile(new File("file.csv"));
 
-        System.out.println(fileManager.getTasks());
-        System.out.println(fileManager.getEpics());
+//        System.out.println(fileManager.getTasks());
+//        System.out.println(fileManager.getEpics());
         System.out.println(fileManager.getSubtasks());
+        System.out.println(fileManager.getEpicsById(5));
+
+        System.out.println(fileManager.getEpicsSubtasks(fileManager.getEpicsById(5)));
+
     }
 }

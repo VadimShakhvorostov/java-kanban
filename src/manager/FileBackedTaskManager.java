@@ -1,15 +1,13 @@
 package manager;
 
-import tasks.Epic;
-import tasks.Subtask;
-import tasks.Task;
-import tasks.TaskStatus;
+import tasks.*;
 
 import java.io.*;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private File file;
+    private static final String HEADER = "id,type,name,status,description,epic \n";
 
     public FileBackedTaskManager(File file) {
         this.file = file;
@@ -17,8 +15,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private void save() {
         try (Writer writer = new FileWriter(file)) {
-            String header = "id,type,name,status,description,epic \n";
-            writer.write(header);
+            writer.write(HEADER);
             if (!getTasks().isEmpty()) {
                 for (Task task : getTasks()) {
                     writer.write(task.toString());
@@ -35,7 +32,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 }
             }
         } catch (IOException | ManagerSaveException e) {
-            throw new ManagerSaveException("Ошибка сохранения");
+            throw new ManagerSaveException("Can't write form file");
         }
     }
 
@@ -46,28 +43,32 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             }
             while (bufferedReader.ready()) {
                 String[] string = bufferedReader.readLine().split(",");
-                switch (string[1]) {
+                final int id = Integer.parseInt(string[0]);
+                final String name = string[2];
+                final String description = string[4];
+                final TaskStatus status = TaskStatus.valueOf(string[3]);
+                final TaskType type = TaskType.valueOf(string[1]);
+                switch (type.toString()) {
                     case "TASK":
-                        Task task = new Task(string[2], string[4], Integer.parseInt(string[0]));
-                        task.setStatus(TaskStatus.valueOf(string[3]));
+                        Task task = new Task(name, description, id);
+                        task.setStatus(status);
                         tasks.put(task.getId(), task);
                         break;
                     case "EPIC":
-                        Epic epic = new Epic(string[2], string[4], Integer.parseInt(string[0]));
+                        Epic epic = new Epic(name, description, id);
                         epic.setStatus();
                         epics.put(epic.getId(), epic);
                         break;
                     case "SUBTASK":
-                        Subtask subtask = new Subtask(string[2], string[4], Integer.parseInt(string[0]));
-                        subtask.setStatus(TaskStatus.valueOf(string[3]));
-                        subtask.setEpic(getEpicsById(Integer.parseInt(string[5])));
+                        Subtask subtask = new Subtask(name, description, id);
+                        subtask.setStatus(status);
                         subtasks.put(subtask.getId(), subtask);
                         break;
                 }
             }
             setSubtaskToEpic();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ManagerSaveException("Can't read form file");
         }
     }
 
@@ -79,14 +80,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             while (bufferedReader.ready()) {
                 String[] string = bufferedReader.readLine().split(",");
                 if (string[1].equals("SUBTASK")) {
-                    Subtask subtask = subtasks.get(Integer.parseInt(string[0]));
-                    Epic epic = epics.get(Integer.parseInt(string[5]));
+                    final int id = Integer.parseInt(string[0]);
+                    final int epicSubtasks = Integer.parseInt(string[5]);
+                    Subtask subtask = subtasks.get(id);
+                    Epic epic = epics.get(epicSubtasks);
                     subtask.setEpic(epic);
                     epic.setSubtask(subtask);
+                    epic.setStatus();
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ManagerSaveException("Can't read form file");
         }
     }
 

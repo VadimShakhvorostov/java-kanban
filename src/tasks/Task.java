@@ -12,7 +12,7 @@ public class Task {
     private TaskStatus status;
     private LocalDateTime startTime;
     private int duration;
-    DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm dd.MM.yy");
+    static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm dd.MM.yy");
 
 
     public Task(String name, String description) {

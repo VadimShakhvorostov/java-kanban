@@ -14,8 +14,8 @@ public class InMemoryTaskManager implements TaskManager {
     protected final Map<Integer, Task> tasks = new HashMap<>();
     protected final Map<Integer, Subtask> subtasks = new HashMap<>();
     protected final Map<Integer, Epic> epics = new HashMap<>();
-    protected Set<Task> prioritizedTasks = new TreeSet<>(Comparator.nullsLast(Comparator.comparing(Task::getStartTime
-            , Comparator.nullsLast(Comparator.naturalOrder()))));
+    protected Set<Task> prioritizedTasks = new TreeSet<>(Comparator.nullsLast(Comparator.comparing(Task::getStartTime,
+            Comparator.nullsLast(Comparator.naturalOrder()))));
 
     HistoryManager inMemoryHistoryManager = Managers.getDefaultHistory();
 

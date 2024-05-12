@@ -3,11 +3,17 @@ package manager;
 import tasks.*;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Optional;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
-    private File file;
-    private static final String HEADER = "id,type,name,status,description,epic \n";
+    private final File file;
+    private static final String HEADER = "id,type,name,status,description,epic,startTime,endTime,duration, \n";
+    DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm dd.MM.yy");
+
 
     public FileBackedTaskManager(File file) {
         this.file = file;
@@ -43,15 +49,24 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             }
             while (bufferedReader.ready()) {
                 String[] string = bufferedReader.readLine().split(",");
+                int length = string.length;
                 final int id = Integer.parseInt(string[0]);
                 final String name = string[2];
                 final String description = string[4];
                 final TaskStatus status = TaskStatus.valueOf(string[3]);
                 final TaskType type = TaskType.valueOf(string[1]);
+
+
                 switch (type.toString()) {
                     case "TASK":
                         Task task = new Task(name, description, id);
                         task.setStatus(status);
+                        if (length > 5) {
+                            LocalDateTime startTime = LocalDateTime.parse(string[6], DATE_TIME_FORMATTER);
+                            int duration = Integer.parseInt(string[7]);
+                            task.setStartTime(startTime);
+                            task.setDuration(duration);
+                        }
                         tasks.put(task.getId(), task);
                         break;
                     case "EPIC":
@@ -62,31 +77,46 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     case "SUBTASK":
                         Subtask subtask = new Subtask(name, description, id);
                         subtask.setStatus(status);
+                        if (length > 6) {
+                            LocalDateTime startTime = LocalDateTime.parse(string[5], DATE_TIME_FORMATTER);
+                            int duration = Integer.parseInt(string[7]);
+                            subtask.setStartTime(startTime);
+                            subtask.setDuration(duration);
+                        }
                         subtasks.put(subtask.getId(), subtask);
                         break;
                 }
             }
-            setSubtaskToEpic();
+            setSubtaskToEpicAndTime();
         } catch (IOException e) {
             throw new ManagerSaveException("Can't read form file");
         }
     }
 
-    private void setSubtaskToEpic() {
+    private void setSubtaskToEpicAndTime() {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             if (bufferedReader.readLine().isEmpty()) {
                 return;
             }
             while (bufferedReader.ready()) {
                 String[] string = bufferedReader.readLine().split(",");
+                int length = string.length;
                 if (string[1].equals("SUBTASK")) {
-                    final int id = Integer.parseInt(string[0]);
-                    final int epicSubtasks = Integer.parseInt(string[5]);
-                    Subtask subtask = subtasks.get(id);
+                    final int idSubtask = Integer.parseInt(string[0]);
+                    final int epicSubtasks;
+                    if (length > 6) {
+                        epicSubtasks = Integer.parseInt(string[8]);
+                    } else {
+                        epicSubtasks = Integer.parseInt(string[5]);
+                    }
+                    Subtask subtask = subtasks.get(idSubtask);
                     Epic epic = epics.get(epicSubtasks);
                     subtask.setEpic(epic);
                     epic.setSubtask(subtask);
                     epic.setStatus();
+                    epic.setStartTime();
+                    epic.setEndTime();
+                    epic.setDuration();
                 }
             }
         } catch (IOException e) {
@@ -137,8 +167,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void updateSubTask(Subtask newSubtask) {
-        super.updateSubTask(newSubtask);
+    public void updateSubtask(Subtask newSubtask) {
+        super.updateSubtask(newSubtask);
         save();
     }
 
@@ -155,8 +185,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void removeSubTaskById(int id) {
-        super.removeSubTaskById(id);
+    public void removeSubtaskById(int id) {
+        super.removeSubtaskById(id);
         save();
     }
 

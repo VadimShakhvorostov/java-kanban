@@ -10,7 +10,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private final File file;
     private static final String HEADER = "id,type,name,status,description,epic,startTime,endTime,duration, \n";
-    DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm dd.MM.yy");
+    static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm dd.MM.yy");
 
 
     public FileBackedTaskManager(File file) {

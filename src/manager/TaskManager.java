@@ -6,6 +6,7 @@ import tasks.Task;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 public interface TaskManager {
 
@@ -37,13 +38,13 @@ public interface TaskManager {
 
     void updateTask(Task newTask);
 
-    void updateSubTask(Subtask newSubtask);
+    void updateSubtask(Subtask newSubtask);
 
     void updateEpic(Epic newEpic);
 
     void removeTaskById(int id);
 
-    void removeSubTaskById(int id);
+    void removeSubtaskById(int id);
 
     void removeEpicById(int id);
 
@@ -52,4 +53,8 @@ public interface TaskManager {
     void changeStatusToProgress(Task task);
 
     void changeStatusToDone(Task task);
+
+    Set<Task> getPrioritizedTasks();
+
+    boolean validation(Task task);
 }

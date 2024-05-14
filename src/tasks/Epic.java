@@ -13,14 +13,12 @@ public class Epic extends Task {
 
     private List<Subtask> epicsSubtask = new ArrayList<>();
 
-
     public void setStartTime() {
         startTime = epicsSubtask.stream()
                 .filter(subtask -> subtask.getStartTime() != null)
                 .min(Comparator.comparing(Subtask::getStartTime))
                 .map(subtask -> subtask.getStartTime())
                 .orElse(null);
-
     }
 
     public void setEndTime() {
@@ -29,7 +27,6 @@ public class Epic extends Task {
                 .max(Comparator.comparing(Subtask::getEndTime))
                 .map(subtask -> subtask.getEndTime())
                 .orElse(null);
-
     }
 
     public void setDuration() {
@@ -40,7 +37,6 @@ public class Epic extends Task {
 
     @Override
     public LocalDateTime getStartTime() {
-
         return startTime;
     }
 
@@ -80,7 +76,9 @@ public class Epic extends Task {
     }
 
     public void setSubtask(Subtask subtask) {
-        epicsSubtask.add(subtask);
+        if (!epicsSubtask.contains(subtask)) {
+            epicsSubtask.add(subtask);
+        }
     }
 
     public void replaceSubtask(Subtask subtask) {

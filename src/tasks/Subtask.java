@@ -26,7 +26,11 @@ public class Subtask extends Task {
 
     public Subtask(String name, String description, LocalDateTime startTime, int duration) {
         super(name, description, startTime, duration);
+    }
 
+    public Subtask(String name, String description, LocalDateTime startTime, int duration, int id) {
+        super(name, description, startTime, duration, id);
+        this.epic = new Epic(null, null);
     }
 
     public Subtask(String name, String description, int id) {

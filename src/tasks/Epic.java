@@ -11,28 +11,16 @@ public class Epic extends Task {
     private LocalDateTime endTime;
     private int duration;
 
-    private List<Subtask> epicsSubtask = new ArrayList<>();
-
-    public void setStartTime() {
-        startTime = epicsSubtask.stream()
-                .filter(subtask -> subtask.getStartTime() != null)
-                .min(Comparator.comparing(Subtask::getStartTime))
-                .map(subtask -> subtask.getStartTime())
-                .orElse(null);
-    }
-
-    public void setEndTime() {
-        endTime = epicsSubtask.stream()
-                .filter(subtask -> subtask.getEndTime() != null)
-                .max(Comparator.comparing(Subtask::getEndTime))
-                .map(subtask -> subtask.getEndTime())
-                .orElse(null);
-    }
+    private List<Integer> subtaskIdThisEpic = new ArrayList<>();
 
     public void setDuration() {
         if (startTime != null) {
             duration = (int) Duration.between(startTime, endTime).toMinutes();
         }
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     @Override
@@ -55,69 +43,38 @@ public class Epic extends Task {
     }
 
     public Epic(String name, String description, int id) {
-        super(name, description, id);
+        super(id, name, description);
     }
 
     public void removeSubtask(int id) {
-        for (Subtask s : epicsSubtask) {
-            if (s.getId() == id) {
-                epicsSubtask.remove(s);
+        for (Integer subtaskId : subtaskIdThisEpic) {
+            if (subtaskId == id) {
+                subtaskIdThisEpic.remove(subtaskId);
                 break;
             }
         }
     }
 
     public void removeEpicsSubtask() {
-        epicsSubtask.clear();
+        subtaskIdThisEpic.clear();
     }
 
-    public void setEpicsSubtask(List<Subtask> epicsSubtask) {
-        this.epicsSubtask = epicsSubtask;
+    public void setSubtaskIdThisEpic(List<Integer> subtaskIdThisEpic) {
+        this.subtaskIdThisEpic = subtaskIdThisEpic;
     }
 
-    public void setSubtask(Subtask subtask) {
-        if (!epicsSubtask.contains(subtask)) {
-            epicsSubtask.add(subtask);
+    public void setSubtask(Integer subtask) {
+        if (!subtaskIdThisEpic.contains(subtask)) {
+            subtaskIdThisEpic.add(subtask);
         }
     }
 
-    public void replaceSubtask(Subtask subtask) {
-        for (Subtask s : epicsSubtask) {
-            if (s.getId() == subtask.getId()) {
-                epicsSubtask.remove(s);
-                epicsSubtask.add(subtask);
-                break;
-            }
-        }
-    }
-
-    public List<Subtask> getEpicsSubtask() {
-        return epicsSubtask;
-    }
-
-    public void setStatus() {
-        int countDone = 0;
-        int countNew = 0;
-        if (!epicsSubtask.isEmpty()) {
-            for (Subtask s : epicsSubtask) {
-                if (s.getStatus() == TaskStatus.DONE) {
-                    countDone++;
-                }
-                if (s.getStatus() == TaskStatus.NEW) {
-                    countNew++;
-                }
-            }
-            if (countNew == epicsSubtask.size()) {
-                super.setStatus(TaskStatus.NEW);
-            } else if (countDone == epicsSubtask.size()) {
-                super.setStatus(TaskStatus.DONE);
-            } else
-                super.setStatus(TaskStatus.IN_PROGRESS);
-        } else super.setStatus(TaskStatus.NEW);
+    public List<Integer> getSubtaskIdThisEpic() {
+        return subtaskIdThisEpic;
     }
 
     @Override
-    public int getId() {
+    public Integer getId() {
         return super.getId();
     }
 

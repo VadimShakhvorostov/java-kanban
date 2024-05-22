@@ -8,7 +8,7 @@ public class Task {
 
     private String name;
     private String description;
-    private int id = 0;
+    private Integer id;
     private TaskStatus status;
     private LocalDateTime startTime;
     private int duration;
@@ -20,7 +20,7 @@ public class Task {
         this.description = description;
     }
 
-    public Task(String name, String description, int id) {
+    public Task( int id,String name, String description) {
         this.name = name;
         this.description = description;
         this.id = id;
@@ -33,7 +33,7 @@ public class Task {
         this.startTime = startTime;
     }
 
-    public Task(String name, String description, LocalDateTime startTime, int duration, int id) {
+    public Task(int id,String name, String description, LocalDateTime startTime, int duration) {
         this.name = name;
         this.description = description;
         this.duration = duration;
@@ -44,6 +44,7 @@ public class Task {
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
+
 
     public void setDuration(int duration) {
         this.duration = duration;
@@ -65,7 +66,7 @@ public class Task {
         return duration;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -103,7 +104,7 @@ public class Task {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Task task = (Task) object;
-        return id == task.id || Objects.equals(name, task.name) && Objects.equals(description, task.description) && status == task.status;
+        return Objects.equals(id, task.id) && Objects.equals(name, task.name) && Objects.equals(description, task.description); //&& status == task.status;
     }
 
     @Override

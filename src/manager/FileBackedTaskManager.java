@@ -1,5 +1,6 @@
 package manager;
 
+import exception.ValidationException;
 import tasks.*;
 
 import java.io.*;
@@ -46,8 +47,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 return;
             }
             while (bufferedReader.ready()) {
+
                 String[] string = bufferedReader.readLine().split(",");
                 int length = string.length;
+
                 final int id = Integer.parseInt(string[0]);
                 final String name = string[2];
                 final String description = string[4];
@@ -67,13 +70,19 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                         }
                         tasks.put(task.getId(), task);
                         break;
+
+                        
                     case "EPIC":
                         Epic epic = new Epic(name, description, id);
-                        epic.setStatus();
+                        epic.setStatus(status);
                         epics.put(epic.getId(), epic);
                         break;
+
+
                     case "SUBTASK":
-                        Subtask subtask = new Subtask(name, description, id);
+                        Integer epicId = Integer.parseInt(string[5]);
+                        Subtask subtask = new Subtask(name, description, epicId);
+                        subtask.setId(id);
                         subtask.setStatus(status);
                         if (length > 6) {
                             LocalDateTime startTime = LocalDateTime.parse(string[5], DATE_TIME_FORMATTER);
@@ -85,52 +94,52 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                         break;
                 }
             }
-            setSubtaskToEpicAndTime();
+            //setSubtaskToEpicAndTime();
         } catch (IOException e) {
             throw new ManagerSaveException("Can't read form file");
         }
     }
 
-    private void setSubtaskToEpicAndTime() {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
-            if (bufferedReader.readLine().isEmpty()) {
-                return;
-            }
-            while (bufferedReader.ready()) {
-                String[] string = bufferedReader.readLine().split(",");
-                int length = string.length;
-                if (string[1].equals("SUBTASK")) {
-                    final int idSubtask = Integer.parseInt(string[0]);
-                    final int epicSubtasks;
-                    if (length > 6) {
-                        epicSubtasks = Integer.parseInt(string[8]);
-                    } else {
-                        epicSubtasks = Integer.parseInt(string[5]);
-                    }
-                    Subtask subtask = subtasks.get(idSubtask);
-                    Epic epic = epics.get(epicSubtasks);
-                    subtask.setEpic(epic);
-                    epic.setSubtask(subtask);
-                    epic.setStatus();
-                    epic.setStartTime();
-                    epic.setEndTime();
-                    epic.setDuration();
-                }
-            }
-        } catch (IOException e) {
-            throw new ManagerSaveException("Can't read form file");
-        }
-    }
+//    private void setSubtaskToEpicAndTime() {
+//        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+//            if (bufferedReader.readLine().isEmpty()) {
+//                return;
+//            }
+//            while (bufferedReader.ready()) {
+//                String[] string = bufferedReader.readLine().split(",");
+//                int length = string.length;
+//                if (string[1].equals("SUBTASK")) {
+//                    final int idSubtask = Integer.parseInt(string[0]);
+//                    final int epicSubtasks;
+//                    if (length > 6) {
+//                        epicSubtasks = Integer.parseInt(string[8]);
+//                    } else {
+//                        epicSubtasks = Integer.parseInt(string[5]);
+//                    }
+//                    Subtask subtask = subtasks.get(idSubtask);
+//                    Epic epic = epics.get(epicSubtasks);
+//                    subtask.setEpicId(epic);
+//                    epic.setSubtask(subtask);
+//                    epic.setStatusEpic();
+//                    epic.setStartTime();
+//                    epic.setEndTime();
+//                    epic.setDuration();
+//                }
+//            }
+//        } catch (IOException e) {
+//            throw new ManagerSaveException("Can't read form file");
+//        }
+//    }
 
     @Override
-    public void createTask(Task task) {
+    public void createTask(Task task) throws FileNotFoundException {
         super.createTask(task);
         save();
     }
 
     @Override
-    public void createSubtask(Subtask subtask, Epic epic) {
-        super.createSubtask(subtask, epic);
+    public void createSubtask(Subtask subtask) {
+        super.createSubtask(subtask);
         save();
     }
 
@@ -159,7 +168,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void updateTask(Task newTask) {
+    public void updateTask(Task newTask) throws FileNotFoundException, ValidationException {
         super.updateTask(newTask);
         save();
     }

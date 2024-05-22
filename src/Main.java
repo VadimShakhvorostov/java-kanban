@@ -1,72 +1,62 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import http.LocalDateTimeAdapter;
+import manager.FileBackedTaskManager;
+import manager.Managers;
+import manager.TaskManager;
+import tasks.Epic;
+import tasks.Subtask;
+import tasks.Task;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.time.LocalDateTime;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
 
 //        FileBackedTaskManager managers = new FileBackedTaskManager(new File("file.csv"));
 //        managers.loadFromFile(new File("file.csv"));
 
-//        TaskManager managers = Managers.getDefault();
-//
-//
-//        Task t1 = new Task("1-task", "1-task", LocalDateTime.of(2024, 5, 8, 4, 0), 30);
-//        Task t2 = new Task("2-task", "2-task", LocalDateTime.of(2024, 5, 8, 6, 0), 30);
-//        managers.createTask(t1);
-//        managers.createTask(t2);
-//
-//        System.out.println(managers.getTasks());
+        TaskManager managers = Managers.getDefault();
+        Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
 
-//        Task t3 = new Task("3-task", "3-task");
-//        Epic e1 = new Epic("ехать", "eхать в деревню");
-//        Subtask s1 = new Subtask("1", "1", LocalDateTime.of(2023, 5, 8, 11, 0), 60);
-//        Subtask s2 = new Subtask("2", "2", LocalDateTime.of(2023, 5, 8, 8, 0), 120);
-//        Subtask s3 = new Subtask("2", "2");
-//
-//
-//        managers.createTask(t3);
-//        managers.createEpic(e1);
-//        managers.createSubtask(s1, e1);
-//        managers.createSubtask(s2, e1);
-//        managers.createSubtask(s3, e1);
-//        System.out.println(managers.getPrioritizedTasks());
-//
-//        System.out.println(managers.getPrioritizedTasks());
-//        System.out.println(managers.getTasks());
-//
-//        Task t3 = new Task("3-task", "3-task",2);
-//        managers.updateTask(t3);
-//
-//        System.out.println(managers.getPrioritizedTasks());
-//        System.out.println(managers.getTasks());
+        Task task1 = new Task("task-1","task-1");
+        managers.createTask(task1);
 
-//        Task t3 = new Task("сесть", "сесть на стул", LocalDateTime.of(2024, 5, 8, 2, 0), 60);
-//        Task t4 = new Task("сесть", "сесть на стул");
-//        managers.createTask(t3);
-//        managers.createTask(t4);
+        Task task2 = new Task(1,"task-2","task-2");
 
-//        System.out.println(managers.getPrioritizedTasks());
+        System.out.println(managers.getTasks());
 
+
+
+
+//
+//
+//        Epic epic = new Epic("epic-1", "epic-1");
+//        managers.createEpic(epic);
 //        System.out.println(managers.getEpics());
+//
+//
+//        Subtask subtask2 = new Subtask("subtask-3","subtask-3",2);
+//        managers.createSubtask(subtask2);
+//        Subtask subtask3 = new Subtask("subtask-3","subtask-3",2);
+//        managers.createSubtask(subtask3);
+//        Subtask subtask4 = new Subtask("subtask-4","subtask-4",2);
+//        managers.createSubtask(subtask4);
+//
+//        Subtask subtask5 = new Subtask(3,"subtask-5","subtask-5");
+//        Subtask subtask6 = new Subtask(4,"subtask-6","subtask-6");
+//        Subtask subtask7 = new Subtask(5,"subtask-7","subtask-7");
+//
+//
+//        System.out.println(managers.getTasks());
 //        System.out.println(managers.getSubtasks());
+//        System.out.println(managers.getEpics());
 
-//        System.out.println(managers.getEpics());
-//        System.out.println(managers.getEpicsSubtasks(e1));
-//        Subtask s3 = new Subtask("бежать", "сделать работу", 2, LocalDateTime.of(2020, 1, 1, 3, 0), 60);
-//        managers.updateSubtask(s3);
-//        System.out.println(managers.getEpics());
-//        System.out.println(managers.getEpicsSubtasks(e1));
 
-//        Epic e1 = new Epic("ехать", "eхать в деревню");
-//        Subtask s1 = new Subtask("сделать", "сделать работу");
-//        Subtask s2 = new Subtask("сделать", "сделать работу");
-//        managers.createEpic(e1);
-//        managers.createSubtask(s1,e1);
-//        managers.createSubtask(s2,e1);
-//        System.out.println(managers.getEpics());
-//        System.out.println(managers.getEpicsSubtasks(e1));
-//        Subtask s3 = new Subtask("срать", "сделать работу",2);
-//        managers.updateSubtask(s3);
-//        System.out.println(managers.getEpics());
-//        System.out.println(managers.getEpicsSubtasks(e1));
+
+
     }
 }

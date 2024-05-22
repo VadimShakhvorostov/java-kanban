@@ -1,9 +1,11 @@
 package manager;
 
+import exception.ValidationException;
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 
+import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -12,9 +14,9 @@ public interface TaskManager {
 
     Collection<Task> getHistory();
 
-    void createTask(Task task);
+    void createTask(Task task) throws FileNotFoundException;
 
-    void createSubtask(Subtask subtask, Epic epic);
+    void createSubtask(Subtask subtask);
 
     void createEpic(Epic epic);
 
@@ -36,7 +38,7 @@ public interface TaskManager {
 
     Epic getEpicsById(int id);
 
-    void updateTask(Task newTask);
+    void updateTask(Task newTask) throws FileNotFoundException, ValidationException;
 
     void updateSubtask(Subtask newSubtask);
 
@@ -48,7 +50,7 @@ public interface TaskManager {
 
     void removeEpicById(int id);
 
-    List<Subtask> getEpicsSubtasks(Epic epic);
+    List<Integer> getEpicsSubtasks(Epic epic);
 
     void changeStatusToProgress(Task task);
 

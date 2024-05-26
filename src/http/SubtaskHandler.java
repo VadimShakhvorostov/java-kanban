@@ -35,14 +35,14 @@ public class SubtaskHandler extends BaseHttpHandler {
 
             case GET_SUBTASK:
                 response = gson.toJson(manager.getSubtasks());
-                sendText(exchange, response);
+                sendText(exchange, response, 200);
                 return;
             case GET_SUBTASK_ID:
                 if (subtaskId.isPresent()) {
                     Subtask subtask = manager.getSubTasksById(subtaskId.get());
                     if (subtask != null) {
                         response = gson.toJson(manager.getSubTasksById(subtaskId.get()));
-                        sendText(exchange, response);
+                        sendText(exchange, response, 200);
                     } else {
                         sendNotFound(exchange, "Не найдено");
                     }
@@ -56,7 +56,7 @@ public class SubtaskHandler extends BaseHttpHandler {
                     Subtask subtask = manager.getSubTasksById(subtaskId.get());
                     if (subtask != null) {
                         manager.removeSubtaskById(subtaskId.get());
-                        sendText(exchange, "Subtask " + subtaskId.get() + " успешно удален");
+                        sendText(exchange, "Subtask " + subtaskId.get() + " успешно удален", 200);
                     } else {
                         sendNotFound(exchange, "Не найдено");
                     }
@@ -75,20 +75,16 @@ public class SubtaskHandler extends BaseHttpHandler {
 
                 try {
                     Subtask subtask = gson.fromJson(body, Subtask.class);
-
                     Integer id = subtask.getId();
-                    if (subtask.getEpicId() == null) {
-                        sendNotFound(exchange, "Нельзя создать subtask без epic");
-                        return;
+
+                    if (id == null) {
+                        manager.createSubtask(subtask);
+                        sendText(exchange, "Subtask " + subtask.getId() + " успешно создан", 200);
+                    } else {
+                        manager.updateSubtask(subtask);
+                        sendText(exchange, "Subtask " + subtask.getId() + " успешно обновлен", 201);
                     }
-//                    if (id == null) {
-//                        manager.createSubtask(subtask, subtask.getEpicId());
-//                        sendText(exchange, "Subtask " + subtask.getId() + " успешно создан");
-//                    } else {
-//                        manager.updateTask(subtask);
-//                        sendText(exchange, "Subtask " + subtask.getId() + " успешно обновлен");
-//                    }
-//                    return;
+                    return;
                 } catch (FileNotFoundException e) {
                     sendNotFound(exchange, "Нат задачи с таким id");
                 } catch (ValidationException e) {
@@ -101,7 +97,6 @@ public class SubtaskHandler extends BaseHttpHandler {
 
     private SubtaskEndpoint getEndpoint(String requestPath, String requestMethod) {
         String[] pathParts = requestPath.split("/");
-        System.out.println(pathParts.length);
         if (requestMethod.equals("POST")) {
             return SubtaskEndpoint.POST_SUBTASK;
         } else if (requestMethod.equals("DELETE")) {

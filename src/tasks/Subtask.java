@@ -26,19 +26,19 @@ public class Subtask extends Task {
     }
 
     public Subtask(int id, String name, String description) {
-        super(name, description, id);
+        super(id, name, description);
     }
 
     public Subtask(int id, String name, String description, LocalDateTime startTime, int duration) {
-        super(name, description, startTime, duration, id);
+        super(id,name, description, startTime, duration);
     }
 
     @Override
     public String toString() {
         if (getStartTime() != null) {
             return getId() + "," + TaskType.SUBTASK + "," + getName() + "," + getStatus() + "," + getDescription()
-                    + "," + getStartTime().format(DATE_TIME_FORMATTER) + "," + getEndTime().format(DATE_TIME_FORMATTER)
-                    + "," + getDuration() + "," + epicId + ",\n";
+                    + "," + epicId + "," + getStartTime().format(DATE_TIME_FORMATTER) + "," + getEndTime().format(DATE_TIME_FORMATTER)
+                    + "," + getDuration() +  ",\n";
         } else
             return getId() + "," + TaskType.SUBTASK + "," + getName() + "," + getStatus() + "," + getDescription() + "," + epicId + ",\n";
     }

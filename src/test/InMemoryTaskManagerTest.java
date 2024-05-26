@@ -1,4 +1,4 @@
-
+package test;
 
 import manager.Managers;
 import manager.TaskManager;
@@ -9,7 +9,6 @@ import tasks.Task;
 import tasks.TaskStatus;
 
 import java.io.FileNotFoundException;
-import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,8 +17,8 @@ class InMemoryTaskManagerTest {
 
     @Test
     void shouldReturnTrueIfEqualsEpic() {
-        Epic epicOne = new Epic("1", "1", 1);
-        Epic epicTwo = new Epic("1", "1", 1);
+        Epic epicOne = new Epic(1,"1", "1");
+        Epic epicTwo = new Epic(1,"1", "1");
         inMemoryTaskManager.createEpic(epicOne);
         assertEquals(epicTwo, inMemoryTaskManager.getEpicsById(1));
     }
@@ -189,7 +188,7 @@ class InMemoryTaskManagerTest {
     @Test
     void shouldReturnTrueIfUpdateTask() throws FileNotFoundException {
         Task taskOne = new Task("1", "1");
-        Task taskTwo = new Task("2", "2", 1);
+        Task taskTwo = new Task(1,"2", "2" );
         inMemoryTaskManager.createTask(taskOne);
         inMemoryTaskManager.updateTask(taskTwo);
         assertEquals(taskTwo, inMemoryTaskManager.getTasksById(1));

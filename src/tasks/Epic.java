@@ -3,20 +3,26 @@ package tasks;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class Epic extends Task {
-    private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private int duration;
 
-    private List<Integer> subtaskIdThisEpic = new ArrayList<>();
+    private List<Integer> subtaskId = new ArrayList<>();
 
     public void setDuration() {
         if (startTime != null) {
             duration = (int) Duration.between(startTime, endTime).toMinutes();
         }
+    }
+
+    public void setSubtask(Integer subtask) {
+        subtaskId.add(subtask);
+    }
+
+    @Override
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
     }
 
     public void setEndTime(LocalDateTime endTime) {
@@ -42,35 +48,30 @@ public class Epic extends Task {
         super(name, description);
     }
 
-    public Epic(String name, String description, int id) {
+    public Epic(int id, String name, String description) {
         super(id, name, description);
     }
 
     public void removeSubtask(int id) {
-        for (Integer subtaskId : subtaskIdThisEpic) {
+        for (Integer subtaskId : subtaskId) {
             if (subtaskId == id) {
-                subtaskIdThisEpic.remove(subtaskId);
+                this.subtaskId.remove(subtaskId);
                 break;
             }
         }
     }
 
     public void removeEpicsSubtask() {
-        subtaskIdThisEpic.clear();
+        subtaskId.clear();
     }
 
-    public void setSubtaskIdThisEpic(List<Integer> subtaskIdThisEpic) {
-        this.subtaskIdThisEpic = subtaskIdThisEpic;
+    public void setSubtaskId(List<Integer> subtaskId) {
+        this.subtaskId = subtaskId;
     }
 
-    public void setSubtask(Integer subtask) {
-        if (!subtaskIdThisEpic.contains(subtask)) {
-            subtaskIdThisEpic.add(subtask);
-        }
-    }
 
-    public List<Integer> getSubtaskIdThisEpic() {
-        return subtaskIdThisEpic;
+    public List<Integer> getSubtaskId() {
+        return subtaskId;
     }
 
     @Override

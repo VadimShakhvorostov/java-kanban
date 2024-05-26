@@ -40,7 +40,7 @@ public interface TaskManager {
 
     void updateTask(Task newTask) throws FileNotFoundException, ValidationException;
 
-    void updateSubtask(Subtask newSubtask);
+    void updateSubtask(Subtask newSubtask) throws FileNotFoundException;
 
     void updateEpic(Epic newEpic);
 
@@ -50,7 +50,7 @@ public interface TaskManager {
 
     void removeEpicById(int id);
 
-    List<Integer> getEpicsSubtasks(Epic epic);
+    List<Subtask> getEpicsSubtasks(Epic epic);
 
     void changeStatusToProgress(Task task);
 

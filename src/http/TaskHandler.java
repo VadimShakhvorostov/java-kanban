@@ -13,7 +13,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-
 public class TaskHandler extends BaseHttpHandler {
     private enum TaskEndpoint {
         GET_TASK, GET_TASK_ID, POST_TASK, DELETE_TASK, UNKNOWN;

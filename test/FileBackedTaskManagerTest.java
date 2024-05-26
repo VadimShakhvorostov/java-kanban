@@ -24,7 +24,7 @@ public class FileBackedTaskManagerTest {
     @BeforeEach
     void createTestFile() {
         try {
-            file = File.createTempFile("testFile",null);
+            file = File.createTempFile("testFile", null);
             managers = new FileBackedTaskManager(file);
             testManagers = new FileBackedTaskManager(file);
 
@@ -32,14 +32,16 @@ public class FileBackedTaskManagerTest {
             e.printStackTrace();
         }
     }
+
     @AfterEach
     void clearTestFile() {
         file.deleteOnExit();
     }
+
     @Test
     void shouldReturnTrueIfEqualsTask() throws FileNotFoundException {
         Task task1 = new Task("task-1", "task-1",
-                LocalDateTime.of(2024,1,1,10,10,0),30);
+                LocalDateTime.of(2024, 1, 1, 10, 10, 0), 30);
         managers.createTask(task1);
         testManagers.loadFromFile(file);
         assertEquals(testManagers.getTasks(), managers.getTasks());
@@ -58,9 +60,9 @@ public class FileBackedTaskManagerTest {
         Epic epic1 = new Epic("epic-1", "epic-1");
         managers.createEpic(epic1);
         Subtask subtask1 = new Subtask("subtask-1", "subtask-1",
-                LocalDateTime.of(2024,1,1,10,10,0),30, epic1.getId());
+                LocalDateTime.of(2024, 1, 1, 10, 10, 0), 30, epic1.getId());
         Subtask subtask2 = new Subtask("subtask-1", "subtask-1",
-                LocalDateTime.of(2024,1,1,11,10,0),30, epic1.getId());
+                LocalDateTime.of(2024, 1, 1, 11, 10, 0), 30, epic1.getId());
         managers.createSubtask(subtask1);
         managers.createSubtask(subtask2);
         testManagers.loadFromFile(file);

@@ -17,8 +17,8 @@ class InMemoryTaskManagerTest {
 
     @Test
     void shouldReturnTrueIfEqualsEpic() {
-        Epic epicOne = new Epic(1,"1", "1");
-        Epic epicTwo = new Epic(1,"1", "1");
+        Epic epicOne = new Epic(1, "1", "1");
+        Epic epicTwo = new Epic(1, "1", "1");
         inMemoryTaskManager.createEpic(epicOne);
         assertEquals(epicTwo, inMemoryTaskManager.getEpicsById(1));
     }
@@ -105,7 +105,7 @@ class InMemoryTaskManagerTest {
     @Test
     void shouldReturnTrueIfSubtaskStatusDoneHisEpicStatusDone() {
         Epic epicOne = new Epic("1", "1");
-        Subtask subtaskOne = new Subtask("1", "1",1);
+        Subtask subtaskOne = new Subtask("1", "1", 1);
         inMemoryTaskManager.createEpic(epicOne);
         inMemoryTaskManager.createSubtask(subtaskOne);
         inMemoryTaskManager.changeStatusToDone(subtaskOne);
@@ -115,8 +115,8 @@ class InMemoryTaskManagerTest {
     @Test
     void shouldReturnTrueIfSubtaskStatusDoneAndSubtaskStatusNewHisEpicStatusInProgress() {
         Epic epicOne = new Epic("1", "1");
-        Subtask subtaskOne = new Subtask("1", "1",1);
-        Subtask subtaskTwo = new Subtask("2", "2",1);
+        Subtask subtaskOne = new Subtask("1", "1", 1);
+        Subtask subtaskTwo = new Subtask("2", "2", 1);
         inMemoryTaskManager.createEpic(epicOne);
         inMemoryTaskManager.createSubtask(subtaskOne);
         inMemoryTaskManager.createSubtask(subtaskTwo);
@@ -127,8 +127,8 @@ class InMemoryTaskManagerTest {
     @Test
     void shouldReturnTrueIfSubtaskStatusDoneAndSubtaskStatusInProgressHisEpicStatusInProgress() {
         Epic epicOne = new Epic("1", "1");
-        Subtask subtaskOne = new Subtask("1", "1",1);
-        Subtask subtaskTwo = new Subtask("2", "2",1);
+        Subtask subtaskOne = new Subtask("1", "1", 1);
+        Subtask subtaskTwo = new Subtask("2", "2", 1);
         inMemoryTaskManager.createEpic(epicOne);
         inMemoryTaskManager.createSubtask(subtaskOne);
         inMemoryTaskManager.createSubtask(subtaskTwo);
@@ -139,8 +139,8 @@ class InMemoryTaskManagerTest {
     @Test
     void shouldReturnTrueIfSubtasksStatusInProgressHisEpicStatusInProgress() {
         Epic epicOne = new Epic("1", "1");
-        Subtask subtaskOne = new Subtask("1", "1",1);
-        Subtask subtaskTwo = new Subtask("2", "2",1);
+        Subtask subtaskOne = new Subtask("1", "1", 1);
+        Subtask subtaskTwo = new Subtask("2", "2", 1);
         inMemoryTaskManager.createEpic(epicOne);
         inMemoryTaskManager.createSubtask(subtaskOne);
         inMemoryTaskManager.createSubtask(subtaskTwo);
@@ -152,8 +152,8 @@ class InMemoryTaskManagerTest {
     @Test
     void shouldReturnTrueIfSubtasksStatusDoneHisEpicStatusDone() {
         Epic epicOne = new Epic("1", "1");
-        Subtask subtaskOne = new Subtask("1", "1",1);
-        Subtask subtaskTwo = new Subtask("2", "2",1);
+        Subtask subtaskOne = new Subtask("1", "1", 1);
+        Subtask subtaskTwo = new Subtask("2", "2", 1);
         inMemoryTaskManager.createEpic(epicOne);
         inMemoryTaskManager.createSubtask(subtaskOne);
         inMemoryTaskManager.createSubtask(subtaskTwo);
@@ -172,7 +172,7 @@ class InMemoryTaskManagerTest {
     @Test
     void shouldReturnTrueWhenGetSubtaskByID() {
         Epic epicOne = new Epic("1", "1");
-        Subtask subtaskOne = new Subtask("1", "1",1);
+        Subtask subtaskOne = new Subtask("1", "1", 1);
         inMemoryTaskManager.createEpic(epicOne);
         inMemoryTaskManager.createSubtask(subtaskOne);
         assertEquals(subtaskOne, inMemoryTaskManager.getSubTasksById(2));
@@ -188,7 +188,7 @@ class InMemoryTaskManagerTest {
     @Test
     void shouldReturnTrueIfUpdateTask() throws FileNotFoundException {
         Task taskOne = new Task("1", "1");
-        Task taskTwo = new Task(1,"2", "2" );
+        Task taskTwo = new Task(1, "2", "2");
         inMemoryTaskManager.createTask(taskOne);
         inMemoryTaskManager.updateTask(taskTwo);
         assertEquals(taskTwo, inMemoryTaskManager.getTasksById(1));

@@ -1,24 +1,5 @@
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.sun.net.httpserver.HttpServer;
-import http.LocalDateTimeAdapter;
-import http.TaskHandler;
-import manager.FileBackedTaskManager;
-import manager.Managers;
-import manager.TaskManager;
-import tasks.Epic;
-import tasks.Subtask;
-import tasks.Task;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.time.LocalDateTime;
 
 public class Main {
 
@@ -26,15 +7,13 @@ public class Main {
 
 //        FileBackedTaskManager managers = new FileBackedTaskManager(new File("file.csv"));
 //        managers.loadFromFile(new File("file.csv"));
-        TaskManager managers = Managers.getDefault();
-        Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
-
-        Task task1 = new Task("task-1","task-1", LocalDateTime.now(),30);
-        managers.createTask(task1);
-        Task task2 = new Task(1,"task-2","task-2",LocalDateTime.of(2020, 1, 1, 1, 0),30);
-        managers.createTask(task2);
-
+//        TaskManager managers = Managers.getDefault();
+//        Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
 //
+//        Task task1 = new Task("task-1","task-1", LocalDateTime.now(),30);
+//        managers.createTask(task1);
+//        Task task2 = new Task(1,"task-2","task-2",LocalDateTime.of(2020, 1, 1, 1, 0),30);
+//        managers.createTask(task2);
 //        Epic epic = new Epic("epic-1", "epic-1");
 //        managers.createEpic(epic);
 //
@@ -65,7 +44,6 @@ public class Main {
 //        System.out.println(managers.getEpics());
 
 
-
 //        TaskManager managers = Managers.getDefault();
 //        HttpServer httpServer = HttpServer.create(new InetSocketAddress(8080), 0);
 //        httpServer.createContext("/tasks", new TaskHandler(managers));
@@ -83,8 +61,6 @@ public class Main {
 //                .POST(HttpRequest.BodyPublishers.ofString(taskJson))
 //                .uri(url)
 //                .build();
-//
-//
 //        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 //        System.out.println(managers.getTasks());
 

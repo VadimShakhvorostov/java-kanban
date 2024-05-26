@@ -217,7 +217,7 @@ public class HttpTaskServerTest {
     @Test
     public void testGetTask() throws IOException, InterruptedException {
         Task task = new Task("Test task 1", "Testing task 1", LocalDateTime.now(), 50);
-        Task task2 = new Task("Test task 2", "Testing task 2", LocalDateTime.of(2024,5,27,1,0,0), 50);
+        Task task2 = new Task("Test task 2", "Testing task 2", LocalDateTime.of(2024, 5, 27, 1, 0, 0), 50);
         managers.createTask(task);
         managers.createTask(task2);
         HttpClient client = HttpClient.newHttpClient();
@@ -236,6 +236,7 @@ public class HttpTaskServerTest {
         assertEquals("Test task 2", managers.getTasksById(2).getName());
 
     }
+
     @Test
     public void testGetEpic() throws IOException, InterruptedException {
         Epic epic1 = new Epic("Test epic 1", "Test epic 1");
@@ -265,7 +266,7 @@ public class HttpTaskServerTest {
         Subtask subtask2 = new Subtask("Test subtask 2", "Test subtask 2",
                 LocalDateTime.now(), 30, epic.getId());
         Subtask subtask3 = new Subtask("Test subtask 3", "Test subtask 3",
-                LocalDateTime.of(2024,5,27,1,0,0),30,epic.getId());
+                LocalDateTime.of(2024, 5, 27, 1, 0, 0), 30, epic.getId());
         managers.createSubtask(subtask2);
         managers.createSubtask(subtask3);
         HttpClient client = HttpClient.newHttpClient();
@@ -291,7 +292,7 @@ public class HttpTaskServerTest {
         Subtask subtask2 = new Subtask("Test subtask 2", "Test subtask 2",
                 LocalDateTime.now(), 30, epic.getId());
         Subtask subtask3 = new Subtask("Test subtask 3", "Test subtask 3",
-                LocalDateTime.of(2024,5,27,1,0,0),30,epic.getId());
+                LocalDateTime.of(2024, 5, 27, 1, 0, 0), 30, epic.getId());
         managers.createSubtask(subtask2);
         managers.createSubtask(subtask3);
         HttpClient client = HttpClient.newHttpClient();

@@ -5,8 +5,6 @@ import manager.TaskManager;
 import org.junit.jupiter.api.Test;
 import tasks.Epic;
 import tasks.Subtask;
-import tasks.Task;
-
 
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
@@ -29,7 +27,7 @@ public class TestTime {
     }
 
     @Test
-    void testUpdateTimeEpicRemoveSubtask(){
+    void testUpdateTimeEpicRemoveSubtask() {
         Epic epicOne = new Epic("epic-1", "epic-1");
         inMemoryTaskManager.createEpic(epicOne);
         Subtask subtaskOne = new Subtask("subtask-1", "subtask-1", LocalDateTime.of(2024, 5, 8, 4, 0), 30, epicOne.getId());
@@ -49,7 +47,7 @@ public class TestTime {
         Subtask subtaskTwo = new Subtask("subtask-2", "subtask-2", LocalDateTime.of(2024, 5, 9, 4, 0), 30, epicOne.getId());
         inMemoryTaskManager.createSubtask(subtaskOne);
         inMemoryTaskManager.createSubtask(subtaskTwo);
-        Subtask subtaskThree = new Subtask(subtaskTwo.getId(),"subtask-2", "subtask-2", LocalDateTime.of(2024, 5, 10, 4, 0), 30);
+        Subtask subtaskThree = new Subtask(subtaskTwo.getId(), "subtask-2", "subtask-2", LocalDateTime.of(2024, 5, 10, 4, 0), 30);
         inMemoryTaskManager.updateSubtask(subtaskThree);
         assertEquals(subtaskOne.getStartTime(), epicOne.getStartTime());
         assertEquals(subtaskThree.getEndTime(), epicOne.getEndTime());

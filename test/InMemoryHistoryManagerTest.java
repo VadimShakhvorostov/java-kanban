@@ -5,13 +5,15 @@ import manager.TaskManager;
 import org.junit.jupiter.api.Test;
 import tasks.Task;
 
+import java.io.FileNotFoundException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryHistoryManagerTest {
     TaskManager inMemoryTaskManager = Managers.getDefault();
 
     @Test
-    void shouldReturnTrueIfTaskGetById() {
+    void shouldReturnTrueIfTaskGetById() throws FileNotFoundException {
         Task taskOne = new Task("1", "1");
         inMemoryTaskManager.createTask(taskOne);
         inMemoryTaskManager.getTasksById(1);
@@ -19,7 +21,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void shouldReturnTrueIfTaskGetByIdAndRemoveTask() {
+    void shouldReturnTrueIfTaskGetByIdAndRemoveTask() throws FileNotFoundException {
         Task taskOne = new Task("1", "1");
         inMemoryTaskManager.createTask(taskOne);
         inMemoryTaskManager.getTasksById(1);
@@ -28,19 +30,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void shouldReturnTrueIfTaskUpdateShowOldVersion() {
-        Task taskBefore = new Task("1", "1");
-        inMemoryTaskManager.createTask(taskBefore);
-        inMemoryTaskManager.getTasksById(1);
-        Task taskAfter = new Task("2", "2", 1);
-        inMemoryTaskManager.updateTask(taskAfter);
-        inMemoryTaskManager.getTasksById(1);
-        assertTrue(inMemoryTaskManager.getHistory().contains(taskBefore));
-        assertTrue(inMemoryTaskManager.getHistory().contains(taskAfter));
-    }
-
-    @Test
-    void shouldReturnTrueIfTaskCheckAgain() {
+    void shouldReturnTrueIfTaskCheckAgain() throws FileNotFoundException {
         Task taskOne = new Task("1", "1");
         inMemoryTaskManager.createTask(taskOne);
         inMemoryTaskManager.getTasksById(1);

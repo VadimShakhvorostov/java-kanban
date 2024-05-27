@@ -1,28 +1,23 @@
 package http;
 
-import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import exception.ValidationException;
 import manager.TaskManager;
-import com.google.gson.Gson;
 import tasks.Epic;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
+
 import java.util.Optional;
 
+import static manager.Managers.gson;
 
 public class EpicHandler extends BaseHttpHandler {
     private enum TaskEndpoint {
         GET_EPIC, GET_EPIC_ID, GET_EPIC_ID_SUBTASKS, POST_EPIC, DELETE_EPIC, UNKNOWN;
     }
-
-    private final Gson gson = new GsonBuilder()
-            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
-            .serializeNulls()
-            .create();
 
     public EpicHandler(TaskManager manager) {
         super(manager);
@@ -38,7 +33,7 @@ public class EpicHandler extends BaseHttpHandler {
         switch (endpoint) {
             case GET_EPIC:
                 response = gson.toJson(manager.getEpics());
-                sendText(exchange, response, 200);
+                sendText(exchange, response, HttpURLConnection.HTTP_OK);
                 return;
             case GET_EPIC_ID:
 
@@ -46,7 +41,7 @@ public class EpicHandler extends BaseHttpHandler {
                     epic = manager.getEpicsById(taskId.get());
                     if (epic != null) {
                         response = gson.toJson(manager.getEpicsById(taskId.get()));
-                        sendText(exchange, response, 200);
+                        sendText(exchange, response, HttpURLConnection.HTTP_OK);
                     } else {
                         sendNotFound(exchange, "Не найдено");
                     }
@@ -59,7 +54,7 @@ public class EpicHandler extends BaseHttpHandler {
                     epic = manager.getEpicsById(taskId.get());
                     if (epic != null) {
                         manager.removeEpicById(taskId.get());
-                        sendText(exchange, "Epic " + taskId.get() + " успешно удален", 200);
+                        sendText(exchange, "Epic " + taskId.get() + " успешно удален", HttpURLConnection.HTTP_OK);
                     } else {
                         sendNotFound(exchange, "Не найдено");
                     }
@@ -78,10 +73,10 @@ public class EpicHandler extends BaseHttpHandler {
                 try {
                     if (id == null) {
                         manager.createEpic(epic);
-                        sendText(exchange, "Epic " + epic.getId() + " успешно создан", 200);
+                        sendText(exchange, "Epic " + epic.getId() + " успешно создан", HttpURLConnection.HTTP_OK);
                     } else {
                         manager.updateEpic(epic);
-                        sendText(exchange, "Epic " + epic.getId() + " успешно обновлен", 201);
+                        sendText(exchange, "Epic " + epic.getId() + " успешно обновлен", HttpURLConnection.HTTP_CREATED);
                     }
                     return;
                 } catch (FileNotFoundException e) {
@@ -93,7 +88,7 @@ public class EpicHandler extends BaseHttpHandler {
                 if (taskId.isPresent()) {
                     if (manager.getEpicsById(taskId.get()) != null) {
                         epic = manager.getEpicsById(taskId.get());
-                        sendText(exchange, gson.toJson(manager.getEpicsSubtasks(epic)), 200);
+                        sendText(exchange, gson.toJson(manager.getEpicsSubtasks(epic)), HttpURLConnection.HTTP_OK);
                     } else {
                         sendNotFound(exchange, "Не найдено");
                     }

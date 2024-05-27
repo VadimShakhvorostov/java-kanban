@@ -6,13 +6,14 @@ import manager.TaskManager;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 public class BaseHttpHandler implements HttpHandler {
 
-    TaskManager manager;
-    String response;
+    protected final TaskManager manager;
+    protected String response;
 
     public BaseHttpHandler(TaskManager manager) {
         this.manager = manager;
@@ -32,7 +33,7 @@ public class BaseHttpHandler implements HttpHandler {
 
     protected void sendNotFound(HttpExchange exchange, String responseString) throws IOException {
         try (OutputStream os = exchange.getResponseBody()) {
-            exchange.sendResponseHeaders(404, 0);
+            exchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
             os.write(responseString.getBytes(StandardCharsets.UTF_8));
         }
         exchange.close();
@@ -40,7 +41,7 @@ public class BaseHttpHandler implements HttpHandler {
 
     protected void sendHasInteractions(HttpExchange exchange) throws IOException {
         try (OutputStream os = exchange.getResponseBody()) {
-            exchange.sendResponseHeaders(406, 0);
+            exchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_ACCEPTABLE, 0);
             os.write("Задачи пересекаются по времени".getBytes(StandardCharsets.UTF_8));
         }
         exchange.close();

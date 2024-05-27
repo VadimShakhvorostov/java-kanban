@@ -1,24 +1,22 @@
 package http;
 
-import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import exception.ValidationException;
 import manager.TaskManager;
-import com.google.gson.Gson;
 import tasks.Task;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 import java.util.Optional;
+
+import static manager.Managers.gson;
 
 public class TaskHandler extends BaseHttpHandler {
     private enum TaskEndpoint {
         GET_TASK, GET_TASK_ID, POST_TASK, DELETE_TASK, UNKNOWN;
     }
-
-    private final Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
 
     public TaskHandler(TaskManager manager) {
         super(manager);
@@ -33,7 +31,7 @@ public class TaskHandler extends BaseHttpHandler {
         switch (endpoint) {
             case GET_TASK:
                 response = gson.toJson(manager.getTasks());
-                sendText(exchange, response, 200);
+                sendText(exchange, response, HttpURLConnection.HTTP_OK);
                 return;
             case GET_TASK_ID:
 
@@ -41,7 +39,7 @@ public class TaskHandler extends BaseHttpHandler {
                     Task task = manager.getTasksById(taskId.get());
                     if (task != null) {
                         response = gson.toJson(manager.getTasksById(taskId.get()));
-                        sendText(exchange, response, 200);
+                        sendText(exchange, response, HttpURLConnection.HTTP_OK);
                     } else {
                         sendNotFound(exchange, "Не найдено");
                     }
@@ -54,7 +52,7 @@ public class TaskHandler extends BaseHttpHandler {
                     Task task = manager.getTasksById(taskId.get());
                     if (task != null) {
                         manager.removeTaskById(taskId.get());
-                        sendText(exchange, "Task " + taskId.get() + " успешно удален", 200);
+                        sendText(exchange, "Task " + taskId.get() + " успешно удален", HttpURLConnection.HTTP_OK);
                     } else {
                         sendNotFound(exchange, "Не найдено");
                     }
@@ -73,10 +71,10 @@ public class TaskHandler extends BaseHttpHandler {
                 try {
                     if (id == null) {
                         manager.createTask(task);
-                        sendText(exchange, "Task " + task.getId() + " успешно создан", 200);
+                        sendText(exchange, "Task " + task.getId() + " успешно создан", HttpURLConnection.HTTP_OK);
                     } else {
                         manager.updateTask(task);
-                        sendText(exchange, "Task " + task.getId() + " успешно обновлен", 201);
+                        sendText(exchange, "Task " + task.getId() + " успешно обновлен", HttpURLConnection.HTTP_CREATED);
                     }
                     return;
                 } catch (FileNotFoundException e) {
